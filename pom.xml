@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <parent>
+        <groupId>fr.smabtp.s4p</groupId>
+        <artifactId>s4p-batch-parent</artifactId>
+        <version>3.2.0</version>
+    </parent>
+
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>fr.sma.artifact</groupId>
+    <artifactId>artifact</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+
+    <!-- PROPERTIES -->
+
+    <properties>
+        <!-- java sdk version courante -->
+        <java.sdk.version>1.7</java.sdk.version>
+        <!-- java sdk autres versions -->
+        <java.sdk6.version>1.6</java.sdk6.version>
+        <java.sdk7.version>1.7</java.sdk7.version>
+        <java.sdk8.version>1.8</java.sdk8.version>
+
+        <!-- S4P -->
+        <s4p.core.version>3.2.0</s4p.core.version>
+        <s4p.persistence.version>3.2.0</s4p.persistence.version>
+        <s4p.ws.version>3.2.0.6</s4p.ws.version>
+        <s4p.jms.version>3.2.0</s4p.jms.version>
+
+        <!-- BUILD PLUGIN -->
+        <version.compiler.plugin>2.3.1</version.compiler.plugin>
+        <maven.assembly.plugin.version>2.5.3</maven.assembly.plugin.version>
+        <maven.jar.plugin.version>2.4</maven.jar.plugin.version>
+
+        <!-- SWAGGER -->
+        <swagger.codegen.version>2.1.4</swagger.codegen.version>
+        <swagger.annotations.version>1.5.22</swagger.annotations.version>
+        <jersey.client.version>1.19.4</jersey.client.version>
+        <!-- SWAGGER CONFIGURATION -->
+        <!-- Chemin ou se situe l'ensemble des fichiers YAML du projet -->
+        <yaml.path>${project.basedir}/src/main/resources/rest</yaml.path>
+        <!-- Chemin du répertoire racine ou nous générons les sources /src -->
+        <generated-sources-path>${project.build.directory}/generated-sources</generated-sources-path>
+        <!-- Chemin où se situe les sources java -->
+        <generated-sources-java-path>main/java</generated-sources-java-path>
+
+        <!-- TESTS  -->
+        <maven-surefire-plugin.version>2.20.1</maven-surefire-plugin.version>
+
+    </properties>
+
+    <!-- DEPENDENCIES -->
+    <dependencies>
+
+        <!-- S4P CORE (dépendance de s4p persistence et s4p ws -->
+        <dependency>
+            <groupId>fr.smabtp.s4p</groupId>
+            <artifactId>s4p-core</artifactId>
+            <version>${s4p.core.version}</version>
+        </dependency>
+
+        <!-- S4P PERSISTENCE -->
+        <dependency>
+            <groupId>fr.smabtp.s4p</groupId>
+            <artifactId>s4p-persistence</artifactId>
+            <version>${s4p.persistence.version}</version>
+        </dependency>
+
+        <!-- S4P WS -->
+        <dependency>
+            <groupId>fr.smabtp.s4p</groupId>
+            <artifactId>s4p-ws</artifactId>
+            <version>${s4p.ws.version}</version>
+        </dependency>
+
+        <!-- S4P JMS -->
+        <dependency>
+            <groupId>fr.smabtp.s4p</groupId>
+            <artifactId>s4p-jms</artifactId>
+            <version>${s4p.jms.version}</version>
+        </dependency>
+
+
+        <!-- SWAGGER ANNOTATIONS -->
+        <dependency>
+            <groupId>io.swagger</groupId>
+            <artifactId>swagger-annotations</artifactId>
+            <version>${swagger.annotations.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.sun.jersey</groupId>
+            <artifactId>jersey-client</artifactId>
+            <version>${jersey.client.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.sun.jersey.contribs</groupId>
+            <artifactId>jersey-multipart</artifactId>
+            <version>${jersey.client.version}</version>
+        </dependency>
+
+
+
+
+    </dependencies>
+
+    <!-- BUILD -->
+
+    <build>
+
+        <!-- PLUGINS -->
+        <plugins>
+            <plugin>
+                <groupId>io.swagger</groupId>
+                <artifactId>swagger-codegen-maven-plugin</artifactId>
+                <version>${swagger.codegen.version}</version>
+                <configuration>
+                    <generateApis>false</generateApis>
+                    <generateModels>true</generateModels>
+                    <generateModelDocumentation>false</generateModelDocumentation>
+                    <generateModelTests>false</generateModelTests>
+                    <generateSupportingFiles>false</generateSupportingFiles>
+                    <language>java</language>
+                    <configOptions>
+                        <sourceFolder>${generated-sources-java-path}</sourceFolder>
+                    </configOptions>
+                    <output>${generated-sources-path}</output>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>jcms-logos</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <inputSpec>${yaml.path}/jcms-logos/swagger.yaml</inputSpec>
+                            <modelPackage>${groupId}.services.rest.generated.jcms_logos.model</modelPackage>
+                            <apiPackage>${groupId}.services.rest.generated.jcms_logos.api</apiPackage>
+                            <invokerPackage>${groupId}.services.rest.generated.jcms_logos.invoker</invokerPackage>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+        </plugins>
+
+    </build>
+
+
+
+
+</project>

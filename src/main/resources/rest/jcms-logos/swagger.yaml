@@ -1,0 +1,172 @@
+swagger: "2.0"
+info:
+  description: "Service de recherche de contenus de type Logo"
+  version: "1.0.0"
+  title: "Service en Ligne - Logo"
+  contact: {}
+  license:
+    name: "SMA"
+host: "sgzhdevt.orleanssrv.domsma"
+basePath: "/site/rest/logos"
+schemes:
+- "http"
+paths:
+  /:
+    post:
+      operationId: "getLogo"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "body"
+        in: "body"
+        required: true
+        schema:
+          $ref: "#/definitions/CriteresLogoRequest"
+      responses:
+        200:
+          description: "Traitement OK - Toutes les données sont renvoyées."
+          schema:
+            $ref: "#/definitions/LogoServiceResponse"
+        206:
+          description: "Traitement OK - Les données sont renvoyées de façon partielle,\
+            \ critères de pagination."
+          schema:
+            $ref: "#/definitions/LogoServiceResponse"
+        400:
+          description: "Mauvaise requête en entrée - Un paramètre obligatoire n'a\
+            \ pas été renseigné."
+          schema:
+            $ref: "#/definitions/LogoServiceFault"
+        403:
+          description: "Aucun droit de lecture sur le contenu"
+        404:
+          description: "Aucune donnée trouvée"
+          schema:
+            $ref: "#/definitions/LogoServiceFault"
+        405:
+          description: "Méthode non autorisée"
+        500:
+          description: "Une erreur technique s'est produite"
+          schema:
+            $ref: "#/definitions/LogoServiceFault"
+  /health:
+    get:
+      description: "Ressource permettant de vérifier l'état de santé du service. Retourne\
+        \ un code 200 en cas de disponibilité du service"
+      parameters: []
+      responses:
+        200:
+          description: "Success"
+definitions:
+  LogoServiceFault:
+    type: "object"
+    required:
+    - "metaData"
+    properties:
+      metaData:
+        $ref: "#/definitions/MetatData"
+      retourService:
+        $ref: "#/definitions/RetourService"
+  LogoServiceResponse:
+    type: "object"
+    required:
+    - "datas"
+    - "metaData"
+    - "retourService"
+    properties:
+      datas:
+        type: "array"
+        items:
+          $ref: "#/definitions/ServiceResponse"
+      metaData:
+        $ref: "#/definitions/MetatData"
+      retourService:
+        $ref: "#/definitions/RetourService"
+  CriteresLogoRequest:
+    type: "object"
+    required:
+    - "cdTypeSupport"
+    - "metaData"
+    properties:
+      metaData:
+        $ref: "#/definitions/MetatData"
+      lstTypeImage:
+        type: "array"
+        items:
+          type: "string"
+      noProprietaire:
+        type: "string"
+      indEtat:
+        type: "string"
+      cdTypeSupport:
+        type: "string"
+  MetatData:
+    type: "object"
+    required:
+    - "Canal"
+    - "Domaine"
+    - "Univers"
+    properties:
+      Canal:
+        type: "string"
+      Domaine:
+        type: "string"
+      Univers:
+        type: "string"
+      noPage:
+        type: "integer"
+      nbItem:
+        type: "integer"
+      allItems:
+        type: "boolean"
+        description: "Paramètre indiquant si on récupère tous les items (ne pas prendre\
+          \ la dernière situation)"
+  RetourService:
+    type: "object"
+    required:
+    - "codeRetour"
+    properties:
+      codeRetour:
+        type: "string"
+      libelleRetour:
+        type: "string"
+  ServiceResponse:
+    type: "object"
+    properties:
+      logo:
+        $ref: "#/definitions/Logo"
+  Logo:
+    type: "object"
+    required:
+    - "cdTypeSupport"
+    - "etatLogo"
+    - "idFileImage"
+    - "idLogo"
+    - "mimeTypeImage"
+    - "titreImage"
+    - "type"
+    - "urlImage"
+    properties:
+      noProprietaire:
+        type: "string"
+      cdTypeSupport:
+        type: "string"
+      titreImage:
+        type: "string"
+      urlImage:
+        type: "string"
+      type:
+        type: "string"
+      urlNavigation:
+        type: "string"
+      idFileImage:
+        type: "string"
+      mimeTypeImage:
+        type: "string"
+      idLogo:
+        type: "string"
+        description: "Identifiant technique du type de contenu Logo"
+      etatLogo:
+        type: "string"
