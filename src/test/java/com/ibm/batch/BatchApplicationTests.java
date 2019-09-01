@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Assertions;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 @ExtendWith(SpringExtension.class)
-@SpringBootTest
+@SpringBootTest(classes = TestApplicationConfiguration.class)
 @Sql({"/schema.sql", "/data.sql"})
 public class BatchApplicationTests {
 

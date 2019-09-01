@@ -17,7 +17,9 @@
 	<properties>
 		<java.version>1.8</java.version>
 		<junit.version>5.4.2</junit.version>
+		<junit-platform-commons.version>1.5.1</junit-platform-commons.version>
 		<maven-surefire-plugin.version>2.22.1</maven-surefire-plugin.version>
+		<h2.scope>test</h2.scope>
 	</properties>
 
 	<dependencies>
@@ -47,7 +49,7 @@
 		<dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
-			<scope>runtime</scope>
+			<scope>${h2.scope}</scope>
 		</dependency>
 
 		<!-- SPRING BOOT STARTER TEST-->
@@ -55,6 +57,7 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
+			<!-- Exclusion JUnit 4-->
 			<exclusions>
 				<exclusion>
 					<artifactId>junit</artifactId>
@@ -81,7 +84,7 @@
 		<dependency>
 			<groupId>org.junit.platform</groupId>
 			<artifactId>junit-platform-commons</artifactId>
-			<version>1.5.1</version>
+			<version>${junit-platform-commons.version}</version>
 			<scope>test</scope>
 		</dependency>
 
